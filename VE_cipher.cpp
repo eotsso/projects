@@ -8,7 +8,7 @@ using namespace std;
 
 /*
   First, if the key length is unknown. You can run the encrypted text through the 'coincidence()' function to determine the key
-  manually. T
+  manually. 
 
   Then, you can use the key length to determine the key used in the Vigenere cipher using 'getVE_key()' 
   - This is done using freqency analysis.
