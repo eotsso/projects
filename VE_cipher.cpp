@@ -40,20 +40,18 @@ int main()
     //USE coincidence() FIRST TO DETERMINE KEY LENGTH. UNCOMMENT IT OUT WHEN NEEDED. 
     //coincidence(encryptedText); 
 
-    //AFTER, PASS THE ENCRYPTED TEXT AND KEY LENGTH INTO VE_Decrypt
+    //PASS THE ENCRYPTED TEXT AND KEY LENGTH INTO VE_Decrypt
     string VE_key = getVE_key(encryptedText, 5);
-
-    cout << "The key is: " << VE_key << endl;
+    cout << "The key used for this Vigenere Cipher is: " << VE_key << endl;
+    
     string plainText = VE_Decrypt(encryptedText, VE_key, 5);
-
-    cout << "The decrypted text for this Vigenere Cipher is: '\n' " << plainText; 
+    cout << "The decrypted text for this Vigenere Cipher is:\n" << plainText; 
 
     return 0;
-
 }
 
 
-//Trying to find the key length 
+//Use this function to find keylength manually.  
 void coincidence(string txt) {
     for (int j = 0; j < txt.length(); j++) {
         int counter = 0;
@@ -82,9 +80,9 @@ string getVE_key(string encryptedText, int coincidenceVal) {
         int encryptedFrequency[26] = {0}; 
         string ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
 
-        //Loops through encrypted text one at a time, and finds the position by comparing char with the position its located in the string
-        //This for-loop increments every 5 spaces because the coincidence found earlier was 5 (I'm assuming key length = 5)  
-        for (int i = counterVal; i < encryptedText.size(); i+=5) { 
+        //Loops through encrypted text one at a time, and finds the position by comparing char with the position located in the string
+        //This for-loop increments every 5 spaces because the coincidence (key length) found earlier was 5 (I'm assuming key length = 5)  
+        for (int i = counterVal; i < encryptedText.size(); i+=coincidenceVal) { 
             char ch = encryptedText.at(i); 
             int pos = ALPHABET.find(ch);
         //Increments the position A = 0, ..., Z = 25 if character is found. 
@@ -94,7 +92,7 @@ string getVE_key(string encryptedText, int coincidenceVal) {
         }
 
         //Determine the relative frequencies for every 5th character including the 0th character.
-        //I was thinking in this case, we could just divide the total text size by 5. 
+        //FIXME:: I was thinking in this case, we could just divide the total text size by 5. 
         int totalLetters = 0; 
         for (int i = 0; i < 26; i++) {
         totalLetters += encryptedFrequency[i];  
@@ -107,7 +105,6 @@ string getVE_key(string encryptedText, int coincidenceVal) {
         }
 
         //Data retrieved from https://cs.wellesley.edu/~fturbak/codman/letterfreq.html
-        //Double data types don't give exact representation of decimal values--so this might be a problem. 
         vector<double> englishAlphabetFrequency = {0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, 0.06094, 
         0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, 0.07507, 0.01929, 0.00095, 0.05987, 0.06327, 0.09056, 0.02758, 
         0.00978, 0.02360, 0.00150, 0.01974, 0.00074};
@@ -150,12 +147,11 @@ string getVE_key(string encryptedText, int coincidenceVal) {
             }
         }
 
-        cout <<"LINE 131: The shift key is: ...! " << posOfHighestFrequencyShift << endl;
+        
         char shiftKey = posOfHighestFrequencyShift + 65;
-        cout << "The char associated is: " << shiftKey << endl;
-        counterVal++; 
-
         VE_key += shiftKey;    
+        
+        counterVal++; 
 
     }
 
@@ -184,20 +180,3 @@ string VE_Decrypt(string txt, string key, int keyLength) {
     return temp; 
 
 }
-
-/*
-    for (int i = 0; i < txt.size(); i++) {
-        for (int j = 0; j < keyLength; j++) {
-            char ch = txt.at(i); 
-            char keyIndex.at(j); 
-            ch = ((ch - 'A') - )
-        }
-    }
-
-
-    for (int i = 0; i < txt.size(); i++) {
-        char ch = txt.at(i);
-        ch = ((ch - 'A') - k + 26) % 26 + 'A';
-        temp += ch; 
-    }
-*/
